@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DadsInventory.Repositories
 {
-    public class UserRepository
+    public class UserRepository:IUserRepository
     {
         private readonly AppDbContext _appDbContext;
 

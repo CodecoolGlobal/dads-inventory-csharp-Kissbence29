@@ -29,7 +29,7 @@ namespace DadsInventory
 
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<UserRepository>();
+            services.AddScoped<IUserRepository,UserRepository>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
                 options.LoginPath = "/Account/Login");
             services.AddControllersWithViews();

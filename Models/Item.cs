@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public int CategoryId { get; set; }
         public bool InStock { get; set; }
-        public Category Category {get; set;}
+        public Category Category { get; set; }
         public string Comment { get; set; }
         public decimal Price { get; set; }
     }

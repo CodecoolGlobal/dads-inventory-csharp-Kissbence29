@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using DadsInventory.Models;
+﻿using DadsInventory.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace DadsInventory.ViewModels
 {

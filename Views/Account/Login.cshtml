@@ -6,13 +6,19 @@
     <title>Login</title>
 </head>
 <body>
+
+@if (@ViewBag.Message != null)
+{
+    <h2 class="alert alert-danger">@ViewBag.Message</h2>
+}
+
 <div>
     <form asp-action="Login" method="post">
         <div>
             <label>
                 Username
             </label>
-            <input type="text" name="username" id="username" />
+            <input type="text" name="username" id="username"/>
         </div>
         <div>
             <label>

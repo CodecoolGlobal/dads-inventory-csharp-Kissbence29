@@ -13,6 +13,6 @@ namespace DadsInventory.Repositories
             _appDbContext = appDbContext;
         }
 
-        public Task<User> AuthenticateAsync(string userName, string password) => Task.FromResult(_appDbContext.Users.First(user => user.Username == userName && user.Password == password));
+        public Task<User> AuthenticateAsync(string userName, string password) => Task.FromResult(_appDbContext.Users.FirstOrDefault(user => user.Username == userName && user.Password == password));
     }
 }

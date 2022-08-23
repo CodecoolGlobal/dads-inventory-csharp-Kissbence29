@@ -28,13 +28,18 @@ namespace DadsInventory.Controllers
             // Checking if username and password is empty or not
             if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
             {
-                ViewBag.Message = "Empty value is not acceptable for even demo also :3";
+                ViewBag.Message = "Empty value is not acceptable!";
                 return View();
             }
             // Learn about Claims Principle -> https://docs.microsoft.com/en-us/dotnet/api/system.security.claims.claimsprincipal?view=netframework-4.8            
 
             // Here you can fetch your user information from the database
             var User = await _repository.AuthenticateAsync(username, password);
+            if (User == null)
+            {
+                ViewBag.Message = "Username or Password is invalid!";
+                return View();
+            }
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, User.Username)

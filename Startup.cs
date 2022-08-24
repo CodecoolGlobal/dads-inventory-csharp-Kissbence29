@@ -1,5 +1,5 @@
 using DadsInventory.Models;
-using DadsInventory.Repositories;
+using DadsInventory.Repositories.User;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,9 +29,12 @@ namespace DadsInventory
 
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-                options.LoginPath = "/Account/Login");
+            {
+                options.LoginPath = "/Account/Login";
+                options.AccessDeniedPath = "/Home/Error";
+            });
             services.AddControllersWithViews();
         }
 

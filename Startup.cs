@@ -1,6 +1,8 @@
 using DadsInventory.Models;
 using DadsInventory.Repositories.User;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,10 +32,22 @@ namespace DadsInventory
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            services.AddAuthentication(options =>
             {
-                options.LoginPath = "/Account/Login";
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            }).AddCookie(options =>
+            {
                 options.AccessDeniedPath = "/Home/Error";
+                options.LoginPath = "/Home/Login";
+            }).AddGoogle(options =>
+            {
+                IConfigurationSection googleAuthNSection =
+                    Configuration.GetSection("Authentication:Google");
+
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
+                options.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
             });
             services.AddControllersWithViews();
         }
@@ -53,17 +67,12 @@ namespace DadsInventory
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
 
-            var cookiePolicyOptions = new CookiePolicyOptions
-            {
-                MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax
-            };
-
-            app.UseCookiePolicy(cookiePolicyOptions);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

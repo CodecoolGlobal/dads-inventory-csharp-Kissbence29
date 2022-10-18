@@ -1,4 +1,6 @@
-﻿@model DadsInventory.ViewModels.ItemsListViewModel
+﻿@using System.Configuration
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model DadsInventory.ViewModels.ItemsListViewModel
 
     <h1>@Model.Title</h1>
     <form method="get">
@@ -12,11 +14,11 @@
             </span>
         </div>
     </form>
-    <table>
-        @foreach (var item in Model.Items)
-        {
-            <tr>
-                <td><a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
-            </tr>
-        }
-    </table>
+<table>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td><a asp-controller="Item" asp-action="Details" asp-route-id="@item.Id">@item.Name</a></td>
+        </tr>
+    }
+</table>
